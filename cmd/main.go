@@ -6,6 +6,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/takumi-ya/taskmanager/configs"
+	"github.com/takumi-ya/taskmanager/internal/handlers"
 )
 
 func main() {
@@ -22,6 +23,8 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
+
+	e.GET("/users", handlers.GetUser)
 
 	appPort := os.Getenv("APP_PORT")
 	if appPort == "" {
