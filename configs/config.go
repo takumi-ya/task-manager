@@ -7,12 +7,13 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
 )
 
 func LoadEnv() {
-	err := godotenv.Load()
+	err := godotenv.Load(".devcontainer/.env")
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
