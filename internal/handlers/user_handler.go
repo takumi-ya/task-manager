@@ -4,15 +4,11 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/takumi-ya/taskmanager/internal/models"
 )
 
-type User struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-}
-
 func GetUser(c echo.Context) error {
-	users := []User{
+	users := []models.User{
 		{ID: 1, Name: "John"},
 		{ID: 2, Name: "Jane"},
 	}
