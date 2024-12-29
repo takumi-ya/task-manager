@@ -10,6 +10,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
+	"github.com/uptrace/bun/extra/bundebug"
 )
 
 func LoadEnv() {
@@ -36,6 +37,10 @@ func NewDB() *bun.DB {
 
 	db := bun.NewDB(sqldb, pgdialect.New())
 	defer db.Close()
+
+	db.AddQueryHook(bundebug.NewQueryHook(
+		bundebug.WithVerbose(true),
+	))
 
 	// 接続確認
 	if err := db.Ping(); err != nil {
