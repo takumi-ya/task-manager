@@ -2,6 +2,8 @@ github.com/bahlo/generic-list-go v0.2.0 h1:5sz/EEAK+ls5wF+NeqDpk5+iNdMDXrh3z3nPn
 github.com/bahlo/generic-list-go v0.2.0/go.mod h1:2KvAjgMlE5NNynlg/5iLrrCCZ2+5xWbdbCW3pNTGyYg=
 github.com/buger/jsonparser v1.1.1 h1:2PnMjfWD7wBILjqQbt530v576A/cAbQvEW9gGIpYMUs=
 github.com/buger/jsonparser v1.1.1/go.mod h1:6RYKKt7H4d4+iWqouImQ9R2FZql3VbhNgx27UK13J/0=
+github.com/fatih/color v1.18.0 h1:S8gINlzdQ840/4pfAwic/ZE0djQEH3wM94VfqLTZcOM=
+github.com/fatih/color v1.18.0/go.mod h1:4FelSpRwEGDpQ12mAdzqdOukCy4u8WUtOY6lkT/6HfU=
 github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD/E=
 github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
 github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
@@ -30,6 +32,8 @@ github.com/uptrace/bun/dialect/pgdialect v1.2.6 h1:iNd1YLx619K+sZK+dRcWPzluurXYK
 github.com/uptrace/bun/dialect/pgdialect v1.2.6/go.mod h1:OL7d3qZLxKYP8kxNhMg3IheN1pDR3UScGjoUP+ivxJQ=
 github.com/uptrace/bun/driver/pgdriver v1.2.6 h1:dD7ckqIhVDayfYTwMKZ0dJM9AZfNJNBu5Cg/8g0EMOk=
 github.com/uptrace/bun/driver/pgdriver v1.2.6/go.mod h1:ChrVrMZlRzPQHTP4QCm/p1FfQqgnYXWlES0GS9qjWEY=
+github.com/uptrace/bun/extra/bundebug v1.2.6 h1:5l61LXIR2YWk/gqGSq5esha+x/qPPyhtQKORAuTfV34=
+github.com/uptrace/bun/extra/bundebug v1.2.6/go.mod h1:11C5ajtPrFcmIRo31TfQrmK5D2LgNIxxTQEZMz6lD2k=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/valyala/fasttemplate v1.2.2 h1:lxLXG0uE3Qnshl9QyaK6XJxMXlQZELvChBOCmQD0Loo=

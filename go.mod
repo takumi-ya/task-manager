@@ -5,6 +5,7 @@ go 1.23.2
 require (
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
+	github.com/fatih/color v1.18.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/labstack/echo/v4 v4.13.3 // indirect
@@ -18,6 +19,7 @@ require (
 	github.com/uptrace/bun v1.2.6 // indirect
 	github.com/uptrace/bun/dialect/pgdialect v1.2.6 // indirect
 	github.com/uptrace/bun/driver/pgdriver v1.2.6 // indirect
+	github.com/uptrace/bun/extra/bundebug v1.2.6 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
