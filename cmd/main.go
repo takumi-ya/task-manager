@@ -1,12 +1,16 @@
 package main
 
 import (
+	"context"
+	"log"
 	"net/http"
 	"os"
 
 	"github.com/labstack/echo/v4"
 	"github.com/takumi-ya/taskmanager/configs"
 	"github.com/takumi-ya/taskmanager/internal/handlers"
+	"github.com/takumi-ya/taskmanager/internal/models"
+	"github.com/uptrace/bun"
 )
 
 func main() {
@@ -17,8 +21,12 @@ func main() {
 	e := echo.New()
 
 	// DB接続
-	db := configs.NewDB()
-	defer db.Close()
+	conn := configs.NewDB()
+	defer conn.CloseDB()
+
+	if err := migrate(conn.DB); err != nil {
+		log.Fatalf("Failed to run migrations: %v", err)
+	}
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
@@ -33,4 +41,12 @@ func main() {
 
 	// サーバー起動
 	e.Logger.Fatal(e.Start(":" + appPort))
+}
+
+func migrate(db *bun.DB) error {
+	ctx := context.Background()
+
+	_, err := db.NewCreateTable().Model((*models.User)(nil)).IfNotExists().Exec(ctx)
+
+	return err
 }

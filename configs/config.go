@@ -13,6 +13,11 @@ import (
 	"github.com/uptrace/bun/extra/bundebug"
 )
 
+type DBConnection struct {
+	DB    *bun.DB
+	SQLDB *sql.DB
+}
+
 func LoadEnv() {
 	err := godotenv.Load(".devcontainer/.env")
 	if err != nil {
@@ -20,7 +25,7 @@ func LoadEnv() {
 	}
 }
 
-func NewDB() *bun.DB {
+func NewDB() *DBConnection {
 	user := os.Getenv("POSTGRES_USER")
 	password := os.Getenv("POSTGRES_PASSWORD")
 	dbname := os.Getenv("POSTGRES_DB")
@@ -33,10 +38,8 @@ func NewDB() *bun.DB {
 	if err != nil {
 		log.Fatalf("failed to open db: %v", err)
 	}
-	defer sqldb.Close()
 
 	db := bun.NewDB(sqldb, pgdialect.New())
-	defer db.Close()
 
 	db.AddQueryHook(bundebug.NewQueryHook(
 		bundebug.WithVerbose(true),
@@ -47,5 +50,22 @@ func NewDB() *bun.DB {
 		log.Fatalf("failed to connect to DB: %v", err)
 	}
 
-	return db
+	log.Println("Database connected successfully")
+
+	return &DBConnection{
+		DB:    db,
+		SQLDB: sqldb,
+	}
+}
+
+func (conn *DBConnection) CloseDB() {
+	if err := conn.SQLDB.Close(); err != nil {
+		log.Fatalf("Error closing SQLDB: %v", err)
+	}
+
+	if err := conn.DB.Close(); err != nil {
+		log.Fatalf("Error closing DB: %v", err)
+	}
+
+	log.Println("Database connection closed")
 }
