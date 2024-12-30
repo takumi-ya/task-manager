@@ -33,6 +33,7 @@ func main() {
 	})
 
 	e.GET("/users", handlers.GetUser(conn.DB))
+	e.POST("/users", handlers.CreateUser(conn.DB))
 
 	appPort := os.Getenv("APP_PORT")
 	if appPort == "" {

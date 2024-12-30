@@ -27,4 +27,41 @@ func GetUser(db *bun.DB) echo.HandlerFunc {
 
 		return c.JSON(http.StatusOK, users)
 	}
-}	
+}
+
+type CreateUserRequest struct {
+	Name string `json:"name" validate:"required"`
+}
+
+func CreateUser(db *bun.DB) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var req CreateUserRequest
+		if err := c.Bind(&req); err != nil {
+			return c.JSON(http.StatusBadRequest, map[string]string{
+				"error": "Invalid request payload",
+			})
+		}
+
+		if req.Name == "" {
+			return c.JSON(http.StatusBadRequest, map[string]string{
+				"error": "Name is required",
+			})
+		}
+
+		user := &models.User{
+			Name: req.Name,
+		}
+
+		ctx := context.Background()
+		_, err := db.NewInsert().
+			Model(user).
+			Exec(ctx)
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"error": "Failed to create user",
+			})
+		}
+
+		return c.JSON(http.StatusCreated, user)
+	}
+}
