@@ -32,7 +32,7 @@ func main() {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
-	e.GET("/users", handlers.GetUser)
+	e.GET("/users", handlers.GetUser(conn.DB))
 
 	appPort := os.Getenv("APP_PORT")
 	if appPort == "" {
