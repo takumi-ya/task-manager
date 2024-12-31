@@ -10,6 +10,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
+	"github.com/uptrace/bun/driver/pgdriver"
 	"github.com/uptrace/bun/extra/bundebug"
 )
 
@@ -34,10 +35,7 @@ func NewDB() *DBConnection {
 
 	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", user, password, host, port, dbname)
 
-	sqldb, err := sql.Open("postgres", dsn)
-	if err != nil {
-		log.Fatalf("failed to open db: %v", err)
-	}
+	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
 
 	db := bun.NewDB(sqldb, pgdialect.New())
 
