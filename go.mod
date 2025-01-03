@@ -17,7 +17,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/puzpuzpuz/xsync/v3 v3.4.0 // indirect
 	github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc // indirect
-	github.com/uptrace/bun v1.2.6 // indirect
+	github.com/uptrace/bun v1.2.7 // indirect
 	github.com/uptrace/bun/dialect/pgdialect v1.2.6 // indirect
 	github.com/uptrace/bun/driver/pgdriver v1.2.6 // indirect
 	github.com/uptrace/bun/extra/bundebug v1.2.6 // indirect
