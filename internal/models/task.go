@@ -11,7 +11,7 @@ type Task struct {
 
 	ID       int64     `bun:"id,pk,autoincrement"`
 	Name     string    `bun:"name,notnull"`
-	Done     bool      `bun:"done"`
+	Done     bool      `bun:"done,default:'FALSE'"`
 	Until    time.Time `bun:"until"`
 	CreateAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
 	UserID   int64     `bun:"user_id"`
