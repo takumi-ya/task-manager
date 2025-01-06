@@ -48,6 +48,14 @@ func migrate(db *bun.DB) error {
 	ctx := context.Background()
 
 	_, err := db.NewCreateTable().Model((*models.User)(nil)).IfNotExists().Exec(ctx)
+	if err != nil {
+		log.Fatalf("Failed to create table of users: %v", err)
+	}
+
+	_, err = db.NewCreateTable().Model((*models.Task)(nil)).
+		ForeignKey(`("user_id") REFERENCES "users" ("id") ON DELETE CASCADE`).
+		IfNotExists().
+		Exec(ctx)
 
 	return err
 }
