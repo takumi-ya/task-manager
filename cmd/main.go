@@ -37,7 +37,7 @@ func main() {
 
 	appPort := os.Getenv("APP_PORT")
 	if appPort == "" {
-		appPort = "8080"
+		appPort = "8082"
 	}
 
 	// サーバー起動
