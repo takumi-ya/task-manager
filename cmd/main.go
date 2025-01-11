@@ -36,6 +36,7 @@ func main() {
 	e.POST("/users", handlers.CreateUser(conn.DB))
 
 	e.GET("/tasks", handlers.GetTask(conn.DB))
+	e.POST("/tasks", handlers.CreateTask(conn.DB))
 
 	appPort := os.Getenv("APP_PORT")
 	if appPort == "" {
