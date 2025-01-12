@@ -26,3 +26,6 @@ go.work.sum
 
 # for macOS
 .DS_Store
+
+# Temporary files
+tmp/
