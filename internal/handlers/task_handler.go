@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -33,11 +34,10 @@ func GetTasks(db *bun.DB) echo.HandlerFunc {
 
 func GetTask(db *bun.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		id := c.Param("id")
-		idInt, err := strconv.Atoi(id)
+		id, err := parseTaskID(c)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]string{
-				"error": "ID must be integer",
+				"error": err.Error(),
 			})
 		}
 
@@ -47,12 +47,12 @@ func GetTask(db *bun.DB) echo.HandlerFunc {
 
 		err = db.NewSelect().
 			Model(&task).
-			Where("id = ?", idInt).
+			Where("id = ?", id).
 			Scan(ctx)
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]string{
-				"error": "Failed to update task id: " + id,
+				"error": "Failed to update task id: " + fmt.Sprint(id),
 			})
 		}
 
@@ -108,4 +108,18 @@ func CreateTask(db *bun.DB) echo.HandlerFunc {
 
 		return c.JSON(http.StatusCreated, task)
 	}
+}
+
+func parseTaskID(c echo.Context) (int64, error) {
+	taskID := c.Param("id")
+	if taskID == "" {
+		return 0, fmt.Errorf("Task ID is required")
+	}
+
+	taskIDInt, err := strconv.ParseInt(taskID, 10, 64)
+	if err != nil {
+		return 0, fmt.Errorf("Invalid task ID")
+	}
+
+	return taskIDInt, nil
 }
