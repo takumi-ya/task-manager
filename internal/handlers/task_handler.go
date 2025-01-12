@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -10,7 +11,7 @@ import (
 	"github.com/uptrace/bun"
 )
 
-func GetTask(db *bun.DB) echo.HandlerFunc {
+func GetTasks(db *bun.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := context.Background()
 
@@ -27,6 +28,35 @@ func GetTask(db *bun.DB) echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, tasks)
+	}
+}
+
+func GetTask(db *bun.DB) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id := c.Param("id")
+		idInt, err := strconv.Atoi(id)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, map[string]string{
+				"error": "ID must be integer",
+			})
+		}
+
+		ctx := context.Background()
+
+		var task models.Task
+
+		err = db.NewSelect().
+			Model(&task).
+			Where("id = ?", idInt).
+			Scan(ctx)
+
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"error": "Failed to update task id: " + id,
+			})
+		}
+
+		return c.JSON(http.StatusOK, task)
 	}
 }
 
