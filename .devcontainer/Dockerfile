@@ -1,6 +1,20 @@
 FROM mcr.microsoft.com/devcontainers/go:1-1.23-bookworm
 
-RUN apt-get update && apt-get install -y postgresql-client && apt-get clean
+ENV TZ /usr/share/zoneinfo/Asia/Tokyo
+
+USER root
+
+RUN apt-get update \
+    && apt-get install -y postgresql-client \
+    && apt-get clean
+
+# vscode(UID=1000) が /go に書き込めるように所有者を変更
+RUN chown -R vscode:vscode /go
+
+USER vscode
+
+# root以外のユーザで go install (書き込み権限が付与されている)
+RUN go install github.com/air-verse/air@latest
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
