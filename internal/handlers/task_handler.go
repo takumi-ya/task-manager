@@ -24,7 +24,7 @@ func GetTasks(db *bun.DB) echo.HandlerFunc {
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]string{
-				"error": "Failed to fetch tasks",
+				"error": "failed to fetch tasks",
 			})
 		}
 
@@ -52,7 +52,7 @@ func GetTask(db *bun.DB) echo.HandlerFunc {
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]string{
-				"error": "Failed to update task id: " + fmt.Sprint(id),
+				"error": "failed to update task id: " + fmt.Sprint(id),
 			})
 		}
 
@@ -71,24 +71,24 @@ func CreateTask(db *bun.DB) echo.HandlerFunc {
 		var req createTaskRequest
 		if err := c.Bind(&req); err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]string{
-				"error": "Invalid request payload",
+				"error": "invalid request payload",
 			})
 		}
 
 		if req.Name == "" {
 			return c.JSON(http.StatusBadRequest, map[string]string{
-				"error": "Name is required",
+				"error": "name is required",
 			})
 		}
 		untilTime, err := time.Parse("2006/1/2 15:04:05", req.Until)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]string{
-				"error": "Until is required",
+				"error": "until is required",
 			})
 		}
 		if req.UserID == 0 {
 			return c.JSON(http.StatusBadRequest, map[string]string{
-				"error": "User ID is required",
+				"error": "user ID is required",
 			})
 		}
 
@@ -102,7 +102,7 @@ func CreateTask(db *bun.DB) echo.HandlerFunc {
 
 		if _, err := db.NewInsert().Model(task).Exec(ctx); err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]string{
-				"error": "Failed to create task",
+				"error": "failed to create task",
 			})
 		}
 
@@ -113,12 +113,12 @@ func CreateTask(db *bun.DB) echo.HandlerFunc {
 func parseTaskID(c echo.Context) (int64, error) {
 	taskID := c.Param("id")
 	if taskID == "" {
-		return 0, fmt.Errorf("Task ID is required")
+		return 0, fmt.Errorf("task ID is required")
 	}
 
 	taskIDInt, err := strconv.ParseInt(taskID, 10, 64)
 	if err != nil {
-		return 0, fmt.Errorf("Invalid task ID")
+		return 0, fmt.Errorf("invalid task ID")
 	}
 
 	return taskIDInt, nil

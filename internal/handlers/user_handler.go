@@ -21,7 +21,7 @@ func GetUser(db *bun.DB) echo.HandlerFunc {
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]string{
-				"error": "Failed to fetch users",
+				"error": "failed to fetch users",
 			})
 		}
 
@@ -34,13 +34,13 @@ func CreateUser(db *bun.DB) echo.HandlerFunc {
 		var user models.User
 		if err := c.Bind(&user); err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]string{
-				"error": "Invalid request payload",
+				"error": "invalid request payload",
 			})
 		}
 
 		if user.Name == "" {
 			return c.JSON(http.StatusBadRequest, map[string]string{
-				"error": "Name is required",
+				"error": "name is required",
 			})
 		}
 
@@ -50,7 +50,7 @@ func CreateUser(db *bun.DB) echo.HandlerFunc {
 			Exec(ctx)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]string{
-				"error": "Failed to create user",
+				"error": "failed to create user",
 			})
 		}
 
