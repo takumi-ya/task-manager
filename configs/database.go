@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
@@ -17,13 +16,6 @@ import (
 type DBConnection struct {
 	DB    *bun.DB
 	SQLDB *sql.DB
-}
-
-func LoadEnv() {
-	err := godotenv.Load(".devcontainer/.env")
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
 }
 
 func NewDB() *DBConnection {
