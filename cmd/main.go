@@ -38,6 +38,7 @@ func main() {
 	e.GET("/tasks", handlers.GetTasks(conn.DB))
 	e.GET("/tasks/:id", handlers.GetTask(conn.DB))
 	e.POST("/tasks", handlers.CreateTask(conn.DB))
+	e.PUT("/tasks/:id", handlers.UpdateTask(conn.DB))
 
 	appPort := os.Getenv("APP_PORT")
 	if appPort == "" {

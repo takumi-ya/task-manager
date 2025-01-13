@@ -110,6 +110,81 @@ func CreateTask(db *bun.DB) echo.HandlerFunc {
 	}
 }
 
+type updateTaskRequest struct {
+	Name   string `json:"name"`
+	Done   bool   `json:"done" validate:"required"`
+	Until  string `json:"until"`
+	UserID int64  `json:"user_id"`
+}
+
+func UpdateTask(db *bun.DB) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id, err := parseTaskID(c)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, map[string]string{
+				"error": err.Error(),
+			})
+		}
+
+		ctx := context.Background()
+
+		var orig models.Task
+
+		err = db.NewSelect().
+			Model(&orig).
+			Where("id = ?", id).
+			Scan(ctx)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, map[string]string{
+				"error": "task id: " + fmt.Sprint(id) + " is not fount",
+			})
+		}
+
+		var req updateTaskRequest
+		if err := c.Bind(&req); err != nil {
+			return c.JSON(http.StatusBadRequest, map[string]string{
+				"error": "invalid request payload",
+			})
+		}
+
+		if req.Name != "" {
+			orig.Name = req.Name
+		}
+		orig.Done = req.Done
+		if req.Until != "" {
+			untilTime, err := time.Parse("2006/1/2 15:04:05", req.Until)
+			if err != nil {
+				return c.JSON(http.StatusBadRequest, map[string]string{
+					"error": "invalid request of until",
+				})
+			}
+
+			orig.Until = untilTime
+		}
+		if req.UserID != 0 {
+			orig.UserID = req.UserID
+		}
+
+		result, err := db.NewUpdate().
+			Model(&orig).
+			Where("id = ?", orig.ID).
+			Returning("*").
+			Exec(ctx)
+		if err != nil {
+
+		}
+
+		rowsAffected, _ := result.RowsAffected()
+		if rowsAffected == 0 {
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"error": "failed to update task",
+			})
+		}
+
+		return c.JSON(http.StatusOK, orig)
+	}
+}
+
 func parseTaskID(c echo.Context) (int64, error) {
 	taskID := c.Param("id")
 	if taskID == "" {
