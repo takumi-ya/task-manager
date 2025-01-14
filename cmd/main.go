@@ -20,6 +20,9 @@ func main() {
 	// Echoのインスタンス作成
 	e := echo.New()
 
+	// BasicAuthの設定
+	configs.SetAuth(e)
+
 	// DB接続
 	conn := configs.NewDB()
 	defer conn.CloseDB()
