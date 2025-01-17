@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -34,7 +33,7 @@ func GetTasks(db *bun.DB) echo.HandlerFunc {
 
 func GetTask(db *bun.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		id, err := parseTaskID(c)
+		id, err := ParseID(c, "task")
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]string{
 				"error": err.Error(),
@@ -119,7 +118,7 @@ type updateTaskRequest struct {
 
 func UpdateTask(db *bun.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		id, err := parseTaskID(c)
+		id, err := ParseID(c, "task")
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]string{
 				"error": err.Error(),
@@ -183,18 +182,4 @@ func UpdateTask(db *bun.DB) echo.HandlerFunc {
 
 		return c.JSON(http.StatusOK, orig)
 	}
-}
-
-func parseTaskID(c echo.Context) (int64, error) {
-	taskID := c.Param("id")
-	if taskID == "" {
-		return 0, fmt.Errorf("task ID is required")
-	}
-
-	taskIDInt, err := strconv.ParseInt(taskID, 10, 64)
-	if err != nil {
-		return 0, fmt.Errorf("invalid task ID")
-	}
-
-	return taskIDInt, nil
 }
