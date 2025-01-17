@@ -37,6 +37,7 @@ func main() {
 
 	e.GET("/users", handlers.GetUser(conn.DB))
 	e.POST("/users", handlers.CreateUser(conn.DB))
+	e.DELETE("/users/:id", handlers.DeleteUser(conn.DB))
 
 	e.GET("/tasks", handlers.GetTasks(conn.DB))
 	e.GET("/tasks/:id", handlers.GetTask(conn.DB))
